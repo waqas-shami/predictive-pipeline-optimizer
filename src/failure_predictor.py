@@ -75,7 +75,6 @@ class FailurePredictor:
             learning_rate=0.1,
             objective='binary:logistic',
             eval_metric='auc',
-            use_label_encoder=False,
             random_state=42
         )
         self.is_trained = False

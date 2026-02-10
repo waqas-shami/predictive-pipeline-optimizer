@@ -4,7 +4,31 @@ An AI system that predicts ETL job failures and performance bottlenecks using hi
 
 ## Live Demo
 
-[View Pipeline Health Dashboard](https://your-demo-url.com) - Real-time predictions and optimization recommendations.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://predictive-pipeline-optimizer.streamlit.app)
+
+Try the interactive demo - Real-time failure predictions and optimization recommendations.
+
+### Run Locally
+
+```bash
+# Clone and install
+git clone https://github.com/waqas-shami/predictive-pipeline-optimizer.git
+cd predictive-pipeline-optimizer
+pip install -r requirements.txt
+
+# Run the demo
+python run_demo.py
+# Or: streamlit run app/streamlit_app.py
+```
+
+### Demo Features
+
+- **System Health Dashboard**: Overview of all pipelines with risk scores
+- **Failure Predictions**: XGBoost-powered probability predictions
+- **Pipeline Details**: Deep-dive into individual pipeline metrics
+- **Recommendations**: Actionable optimization suggestions
+- **Historical Analysis**: Trends, patterns, and failure investigation
+- **Model Metrics**: AUC-ROC, precision, recall, feature importance
 
 ## Problem Statement
 
@@ -224,5 +248,6 @@ MIT License - See LICENSE file for details.
 ## Author
 
 **Waqas Shami** - Head of Data Platform | Enterprise AI/ML Solutions
-- [LinkedIn](https://linkedin.com/in/yourprofile)
+- [LinkedIn](https://linkedin.com/in/waqas-shami)
 - [Website](https://waqasshami.com)
+- [GitHub](https://github.com/waqas-shami)
