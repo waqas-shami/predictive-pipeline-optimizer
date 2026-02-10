@@ -720,16 +720,17 @@ def main():
             with col2:
                 st.markdown("**Cross-Validation Scores**")
                 for i, score in enumerate(metrics.cv_scores):
-                    st.progress(score, text=f"Fold {i+1}: {score:.4f}")
+                    st.progress(float(score), text=f"Fold {i+1}: {score:.4f}")
 
             # Feature importance
             if st.session_state.failure_predictor.feature_importance:
                 st.markdown("### Feature Importance")
                 importance = st.session_state.failure_predictor.feature_importance
                 sorted_imp = sorted(importance.items(), key=lambda x: -x[1])
+                max_imp = float(max(importance.values()))
 
                 for feature, imp in sorted_imp[:10]:
-                    st.progress(imp / max(importance.values()), text=f"{feature}: {imp:.4f}")
+                    st.progress(float(imp) / max_imp, text=f"{feature}: {imp:.4f}")
 
         else:
             st.info("Train the model to see performance metrics.")
