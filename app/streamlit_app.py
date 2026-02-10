@@ -158,9 +158,9 @@ def render_sidebar():
 
         history_days = st.slider(
             "History Days",
-            min_value=30,
-            max_value=180,
-            value=90,
+            min_value=14,
+            max_value=90,
+            value=30,
             help="Days of historical data to use for training"
         )
 
@@ -234,9 +234,27 @@ def train_model(history: pd.DataFrame):
 
     failure_predictor = FailurePredictor()
 
-    # Engineer features for training
+    # Sample data for faster training
+    max_samples = 500  # Limit for fast training
+    if len(history) > max_samples:
+        # Stratified sampling to ensure failures are represented
+        failures = history[~history['success']]
+        successes = history[history['success']]
+
+        # Take all failures (usually fewer) and sample from successes
+        n_failures = min(len(failures), max_samples // 3)
+        n_successes = max_samples - n_failures
+
+        sampled_failures = failures.sample(n=n_failures, random_state=42) if len(failures) > n_failures else failures
+        sampled_successes = successes.sample(n=min(n_successes, len(successes)), random_state=42)
+
+        train_sample = pd.concat([sampled_failures, sampled_successes]).reset_index(drop=True)
+    else:
+        train_sample = history
+
+    # Engineer features for training (using sampled data)
     features_list = []
-    for _, row in history.iterrows():
+    for _, row in train_sample.iterrows():
         features = feature_engineer.engineer_features(
             pipeline_id=row['pipeline_id'],
             scheduled_time=row['start_time'],
@@ -255,7 +273,7 @@ def train_model(history: pd.DataFrame):
     )
 
     # Target: failure (inverse of success)
-    y = (~history['success']).astype(int)
+    y = (~train_sample['success']).astype(int)
 
     # Train
     failure_predictor.train(X, y)
